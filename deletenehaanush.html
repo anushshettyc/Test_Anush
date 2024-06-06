@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to AnushWebPage</title>
+</head>
+<body>
+    <h1>Welcome to AnushWebPage</h1>
+    <form id="userDetailsForm">
+        <label for="userId">Enter User ID:</label>
+        <input type="text" id="userId" name="userId" required>
+        <button type="submit">Proceed</button>
+    </form>
+
+    <script>
+        document.getElementById("userDetailsForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // prevent default form submission
+
+            // Get user details from the form
+            const userId = document.getElementById("userId").value;
+
+            // Construct API endpoint using CORS Anywhere as a proxy
+            //const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+            const apiUrl ="https://api.mypurecloud.com/api/v2/routing/skills/" + userId;
+
+            // Replace 'YOUR_TOKEN_HERE' with your actual token
+            const token = "0yCJynbkg_Ya_CisXO3_m-toLkxPsSSHd6vMdvHkgWDp0cYDUycpEXZgfWK6dhWcGPBfJzLN-7DEjygekuBDhQ";
+
+            // Prepare request headers
+            const headers = new Headers();
+            headers.append("Authorization", "Bearer " + token);
+
+            // Prepare request options
+            const requestOptions = {
+                method: "DELETE",
+                headers: headers,
+                redirect: "follow"
+            };
+
+            // Send DELETE request to the API endpoint via CORS Anywhere proxy
+            fetch(apiUrl, requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        console.log("User details deleted successfully");
+			alert('User details deleted successfully!');
+
+                        // Optionally, you can add code here to inform the user about successful deletion
+                    } else {
+                        console.error("Error deleting user details:", response.statusText);
+			alert('Error deleting user details:', response.statusText);
+
+                        // Optionally, you can add code here to inform the user about the error
+                    }
+                })
+                .catch(error => console.error("Error deleting user details:", error));
+        });
+    </script>
+</body>
+</html>
